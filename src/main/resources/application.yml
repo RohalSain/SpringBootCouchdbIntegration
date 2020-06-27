@@ -1,0 +1,22 @@
+spring:
+   application:
+      name: demo      
+   data:
+    couchbase:
+      auto-index: true
+
+   couchbase:
+      bootstrap-hosts:
+      - 127.0.0.1
+      bucket:
+        password: rohal123
+        name: demo     
+server:
+  port: 8081
+
+logging:
+  level:
+    root: warn
+    org.springframework.security: debug
+   
+   

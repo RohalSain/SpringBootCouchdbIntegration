@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Document
 public class Person {
 	@Id
-	private int id;
+	private Integer id;
 	@Field
 	private String firstName;
 	@Field
