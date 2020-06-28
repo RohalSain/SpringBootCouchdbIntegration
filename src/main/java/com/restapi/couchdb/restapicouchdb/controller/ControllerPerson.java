@@ -2,16 +2,17 @@ package com.restapi.couchdb.restapicouchdb.controller;
 
 import java.util.Optional;
 
-import com.couchbase.client.core.annotations.InterfaceAudience.Public;
 import com.restapi.couchdb.restapicouchdb.JwtUtil.JwtUtil;
 import com.restapi.couchdb.restapicouchdb.model.AuthenticationRepsonse;
 import com.restapi.couchdb.restapicouchdb.model.AuthenticationRequest;
 import com.restapi.couchdb.restapicouchdb.model.Person;
+import com.restapi.couchdb.restapicouchdb.repository.PersonPaging;
 import com.restapi.couchdb.restapicouchdb.repository.PersonRepository;
 import com.restapi.couchdb.restapicouchdb.security.MyUserDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +33,9 @@ public class ControllerPerson {
 
     @Autowired
     private PersonRepository person_repository;
+
+    @Autowired
+    private PersonPaging person_paging;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -82,6 +85,11 @@ public class ControllerPerson {
     @GetMapping(value = "getAllPersons",produces = "application/json")
     public Iterable<Person> getAll() {
         return person_repository.findAll();
+    }
+
+    @GetMapping(value = "getAllPersonsWithPaging" ,produces = "application/json")
+    public Iterable<Person> getAllWithPaging() {
+        return person_paging.listPersons(2, 0);
     }
 
     @DeleteMapping(value = "/deleteProduct/{id}",consumes = "application/json")
